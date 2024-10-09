@@ -30,7 +30,7 @@
             <td><?= $user->getId() ?></td>
             <td><?= $user->getUsername() ?></td>
             <td><?= $user->getMail() ?></td>
-            <td><?= $user->getMail() ?></td>
+            <td><?= $user->getMediaObject() ?></td>
             <td>
                 <a href="update.php?id=<?= $user->getId() ?>">Modifier</a>
                 <a href="delete.php?id=<?= $user->getId() ?>">Supprimer</a>
