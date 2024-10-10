@@ -9,3 +9,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     photo VARCHAR(255) NOT NULL
 );
+
+ALTER TABLE users
+ADD COLUMN created_at DATETIME,
+ADD COLUMN last_connection DATETIME;
