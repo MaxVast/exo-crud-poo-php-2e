@@ -1,7 +1,19 @@
 <?php
+    
+
     require 'autoload.php';
 
     use App\Repository\UserRepository;
+
+    session_start();
+
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: login.php');
+        exit;
+    }
+
+    // Si l'utilisateur est connecté, on récupère son nom
+    $userName = $_SESSION['username'];
 
     $userRepo = new UserRepository();
     $users = $userRepo->getAll();
@@ -15,25 +27,27 @@
     <title>Liste des Utilisateurs</title>
 </head>
 <body>
+    <p> Welcome <?php echo $userName ?>
     <h1>Liste des Utilisateurs</h1>
     <a href="create.php">Créer un Nouvel Utilisateur</a>
+    <br/><br/>
+    <a href="logout.php">Deconnexion</a>
+    <br/><br/>
     <table border="1">
         <tr>
-            <th>ID</th>
-            <th>Nom</th>
+            <th>Username</th>
             <th>E-mail</th>
             <th>Photo</th>
             <th>Actions</th>
         </tr>
         <?php foreach ($users as $user): ?>
         <tr>
-            <td><?= $user->getId() ?></td>
-            <td><?= $user->getUsername() ?></td>
-            <td><?= $user->getMail() ?></td>
-            <td><?= $user->getMediaObject() ?></td>
+            <td><a href="read.php?id=<?= $user->getId() ?>" style="text-decoration:none;"><?= $user->getUsername() ?></a></td>
+            <td><a href="read.php?id=<?= $user->getId() ?>" style="text-decoration:none;"><?= $user->getMail() ?></a></td>
+            <td><a href="read.php?id=<?= $user->getId() ?>" style="text-decoration:none;"><img src="<?= htmlspecialchars($user->getMediaObject()); ?>" width="50" height="50"></a></td>
             <td>
                 <a href="update.php?id=<?= $user->getId() ?>">Modifier</a>
-                <a href="delete.php?id=<?= $user->getId() ?>">Supprimer</a>
+                <a href="delete.php?id=<?= $user->getId() ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">Supprimer</a>
             </td>
         </tr>
         <?php endforeach; ?>
