@@ -13,3 +13,7 @@ CREATE TABLE users (
 ALTER TABLE users
 ADD COLUMN created_at DATETIME,
 ADD COLUMN last_connection DATETIME;
+
+ALTER TABLE users
+ADD COLUMN role_admin BOOL;
+

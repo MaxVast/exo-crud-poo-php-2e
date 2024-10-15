@@ -7,9 +7,6 @@
         exit;
     }
 
-    // Si l'utilisateur est connecté, on récupère son nom
-    $userName = $_SESSION['user_name'];
-
     // Détruire toutes les variables de session
     session_unset();
 

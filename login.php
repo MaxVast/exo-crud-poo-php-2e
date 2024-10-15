@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $userRepo->updateLastConnection($user->getId());
                 $_SESSION['user_id'] = $user->getId();
                 $_SESSION['username'] = $user->getUsername();
+                $_SESSION['admin'] = $user->getRoleAdmin();
                 
                 header('Location: index.php');
                 exit;

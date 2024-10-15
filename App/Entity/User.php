@@ -10,8 +10,9 @@ class User {
     private $media_object;
     private $created_at;
     private $last_connection;
+    private $role_admin = false;
 
-    public function __construct($username, $mail, $password, $media_object,  $id = null, $created_at = null, $last_connection = null) {
+    public function __construct($username, $mail, $password, $media_object,  $id = null, $created_at = null, $last_connection = null, $role_admin = null) {
         $this->id = $id;
         $this->username = $username;
         $this->mail = $mail;
@@ -19,6 +20,7 @@ class User {
         $this->media_object = $media_object;
         $this->created_at = $created_at;
         $this->last_connection = $last_connection;
+        $this->role_admin = $role_admin;
     }
 
     public function getId() {
@@ -47,5 +49,9 @@ class User {
 
     public function getLastConnection() : ?string {
         return $this->last_connection;
+    }
+
+    public function getRoleAdmin() : ?bool {
+        return $this->role_admin;
     }
 }

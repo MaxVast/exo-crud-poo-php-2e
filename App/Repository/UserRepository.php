@@ -23,19 +23,21 @@ class UserRepository {
                 $row['photo'], 
                 $row['id'], 
                 $row['created_at'],
-                $row['last_connection']
+                $row['last_connection'],
+                $row['role_admin']
             );
         }
         return $users;
     }
 
     public function create(User $user) {
-        $stmt = $this->db->prepare("INSERT INTO users (username, email, password, photo, created_at, last_connection) VALUES (:username, :email, :password, :photo, :created_at, :last_connection)");
+        $stmt = $this->db->prepare("INSERT INTO users (username, email, password, photo, created_at, last_connection, role_admin) VALUES (:username, :email, :password, :photo, :created_at, :last_connection, :role_admin)");
         
         $stmt->bindValue(':username', $user->getUsername());
         $stmt->bindValue(':email', $user->getMail());
         $stmt->bindValue(':password', $user->getPassword());
         $stmt->bindValue(':photo', $user->getMediaObject());
+        $stmt->bindValue(':role_admin', 0);
         
         $createdAt = date('Y-m-d H:i:s');
         $lastConnection = null;
@@ -59,12 +61,13 @@ class UserRepository {
             $data['photo'], 
             $data['id'], 
             $data['created_at'], 
-            $data['last_connection']
+            $data['last_connection'],
+            $data['role_admin'],
         ) : null;
     }
 
     public function update(User $user) {
-        $stmt = $this->db->prepare("UPDATE users SET username = :username, email = :email, password = :password, photo = :photo WHERE id = :id");
+        $stmt = $this->db->prepare("UPDATE users SET username = :username, email = :email, password = :password, photo = :photo, role_admin = :role_admin WHERE id = :id");
         
         $stmt->bindValue(':username', $user->getUsername());
         $stmt->bindValue(':email', $user->getMail());
@@ -86,8 +89,6 @@ class UserRepository {
         $stmt->bindValue(':mail', $mail);
         $stmt->execute();
         $data = $stmt->fetch(\PDO::FETCH_ASSOC);
-
-        var_dump($data);
         
         return $data ? new User(
             $data['username'], 
@@ -96,7 +97,8 @@ class UserRepository {
             $data['photo'], 
             $data['id'], 
             $data['created_at'], 
-            $data['last_connection']
+            $data['last_connection'],
+            $data['role_admin']
         ) : null;
     }
 

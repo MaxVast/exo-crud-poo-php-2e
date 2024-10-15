@@ -8,6 +8,10 @@
     if (!isset($_SESSION['user_id'])) {
         $connected = false;
     } else {
+        if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
+            header('Location: index.php');
+            exit;
+        }
         $connected = true;
     }
 
@@ -138,6 +142,13 @@
         <button type="submit" name="inscription">Ajouter l'utilisateur</button>
     </form>
     <br/><br/>
-    <a href="index.php">Retour à la liste des utilisateurs</a>
+    <?php
+        if($connected) {
+            echo '<a href="index.php">Retour à la liste des utilisateurs</a>';
+        } else {
+            echo '<a href="login.php">Retour à la page de login</a>';
+        }
+    ?>
+    
 </body>
 </html>

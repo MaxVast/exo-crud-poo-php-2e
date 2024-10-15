@@ -1,7 +1,7 @@
 <?php
-session_start();
-
 require 'autoload.php';
+
+session_start();
 
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -11,6 +11,8 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
+$admin = $_SESSION['admin'];
+$userId = $_SESSION['user_id'];
 
 // Si l'utilisateur est connecté, on récupère son nom
 $userName = $_SESSION['username'];
@@ -20,6 +22,12 @@ $user = null;
 
 if (isset($_GET['id'])) {
     $user = $userRepo->read($_GET['id']);
+}
+
+//Verifie que l'utilisateur est admin
+if (!$admin && $userId !== $user->getId()) {
+    header('Location: index.php');
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
